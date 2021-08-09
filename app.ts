@@ -1,10 +1,10 @@
 import { Application } from 'egg'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const aedes = require('aedes')()
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const server = require('net').createServer(aedes.handle)
+import * as path from 'path'
 
 // app.js
+/**
+ * @see https://user-images.githubusercontent.com/40081831/47344271-a688d500-d6da-11e8-96e9-663fa9f45108.png 应用加载逻辑
+ */
 class AppBootHook {
   private readonly app: Application
   constructor(app: Application) {
@@ -12,6 +12,8 @@ class AppBootHook {
   }
 
   configWillLoad() {
+    const directory = path.join(this.app.config.baseDir, 'app', 'mqtt')
+    this.app.loader.loadToApp(directory, 'mqtt')
     // 此时 config 文件已经被读取并合并，但是还并未生效
     // 这是应用层修改配置的最后时机
     // 注意：此函数只支持同步调用
@@ -31,6 +33,7 @@ class AppBootHook {
 
   async didReady() {
     // 应用已经启动完毕
+    console.log('app mid', this.app.middleware)
   }
 
   async serverDidReady() {

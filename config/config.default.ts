@@ -17,13 +17,21 @@ export default (appInfo: EggAppInfo) => {
       ignore: (ctx: any) => isInnerIp(ctx.ip),
     },
   }
+
   // mqtt
-  config.emqtt = {
-    client: {
-      host: 'mqtt://127.0.0.1',
+  config.rabbitHouseMqttPlugin = {
+    server: {
+      port: 1883,
       username: 'user',
       password: '123456',
+    },
+    client: {
+      host: '127.0.0.1',
       clientId: 'egg',
+      username: 'user',
+      password: '123456',
+      protocol: 'mqtt',
+      msgMiddleware: ['msg2json'],
       options: {
         keepalive: 60,
         protocolId: 'MQTT',
@@ -33,14 +41,7 @@ export default (appInfo: EggAppInfo) => {
         connectTimeout: 30 * 1000,
         rejectUnauthorized: false,
       },
-      msgMiddleware: ['msg2json'],
     },
-  }
-  // mqtt server
-  config.rabbitHouseMqttPlugin = {
-    port: 1883,
-    username: 'user',
-    password: '123456',
   }
 
   // add your egg config in here

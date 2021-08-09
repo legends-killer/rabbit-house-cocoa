@@ -6,11 +6,11 @@ const plugin: EggPlugin = {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
   // },
-  emqtt: { enable: true, package: 'egg-emqtt' },
-  cors: {
-    enable: true,
-    package: 'egg-cors',
-  },
+  // emqtt: { enable: true, package: 'egg-emqtt' },
+  // cors: {
+  //   enable: true,
+  //   package: 'egg-cors',
+  // },
   rabbitHouseMqttPlugin: { enable: true, package: 'egg-rabbit-house-mqtt-plugin' },
 }
 
