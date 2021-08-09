@@ -33,7 +33,6 @@ class AppBootHook {
 
   async didReady() {
     // 应用已经启动完毕
-    console.log('app mid', this.app.middleware)
   }
 
   async serverDidReady() {
