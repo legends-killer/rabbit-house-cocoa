@@ -22,10 +22,13 @@
     "clean": "ets clean"
   },
   "dependencies": {
+    "@hackycy/egg-typeorm": "^0.5.1",
+    "better-sqlite3": "^7.4.3",
     "egg": "^2.6.1",
     "egg-cors": "^2.2.3",
     "egg-rabbit-house-mqtt-plugin": "^2.0.0",
-    "egg-scripts": "^2.6.0"
+    "egg-scripts": "^2.6.0",
+    "typeorm": "^0.2.36"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",

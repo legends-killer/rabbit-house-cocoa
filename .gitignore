@@ -12,6 +12,7 @@ logs/
 *.js
 !.eslintrc.js
 !.autod.conf.js
+!ormconfig.js
 
 app/**/*.js
 test/**/*.js
@@ -21,3 +22,4 @@ test/**/*.map
 config/**/*.map
 typings/app
 typings/config
+db/

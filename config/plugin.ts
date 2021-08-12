@@ -12,6 +12,10 @@ const plugin: EggPlugin = {
   //   package: 'egg-cors',
   // },
   rabbitHouseMqttPlugin: { enable: true, package: 'egg-rabbit-house-mqtt-plugin' },
+  typeorm: {
+    enable: true,
+    package: '@hackycy/egg-typeorm',
+  },
 }
 
 export default plugin
