@@ -21,6 +21,7 @@ export default (appInfo: EggAppInfo) => {
   // mqtt
   config.rabbitHouseMqttPlugin = {
     server: {
+      host: '192.168.249.132',
       port: 1883,
       username: 'user',
       password: '123456',
