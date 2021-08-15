@@ -26,7 +26,7 @@
     "better-sqlite3": "^7.4.3",
     "egg": "^2.6.1",
     "egg-cors": "^2.2.3",
-    "egg-rabbit-house-mqtt-plugin": "^2.1.0",
+    "egg-rabbit-house-mqtt-plugin": "^2.1.1",
     "egg-scripts": "^2.6.0",
     "typeorm": "^0.2.36"
   },

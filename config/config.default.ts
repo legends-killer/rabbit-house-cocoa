@@ -27,7 +27,7 @@ export default (appInfo: EggAppInfo) => {
       password: '123456',
     },
     client: {
-      host: '127.0.0.1',
+      host: '192.168.249.132',
       clientId: 'egg',
       username: 'user',
       password: '123456',
