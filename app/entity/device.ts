@@ -9,7 +9,7 @@ const TransApi = {
     return JSON.stringify(value)
   },
 }
-const TransReceiveMiddleware = {
+const TransStringArray = {
   from: (value: string) => {
     return value.split(',')
   },
@@ -39,8 +39,11 @@ class Device {
   @Column('varchar', { transformer: TransApi })
   public api: IDeviceApi // 设备支持的api
 
-  @Column('varchar', { transformer: TransReceiveMiddleware })
+  @Column('varchar', { transformer: TransStringArray })
   public receiveMiddleware: string[] // 设备发送消息后，经过的中间件
+
+  @Column('varchar', { transformer: TransStringArray })
+  public topic: string[] // 设备支持订阅的topic
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',

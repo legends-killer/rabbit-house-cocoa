@@ -1,5 +1,6 @@
 import { Application } from 'egg'
 import * as path from 'path'
+import Device from './app/entity/device'
 
 // app.js
 /**
@@ -7,8 +8,10 @@ import * as path from 'path'
  */
 class AppBootHook {
   private readonly app: Application
+  private appBootCache: { [key: string]: any }
   constructor(app: Application) {
     this.app = app
+    this.appBootCache = {}
   }
 
   configWillLoad() {
@@ -29,10 +32,22 @@ class AppBootHook {
     // 所有的插件都已启动完毕，但是应用整体还未 ready
     // 可以做一些数据初始化等操作，这些操作成功才会启动应用
     // 例如：从数据库加载数据到内存缓存
+    // get mqtt topics from db
+    const repo = this.app.context.repo
+    const devices = await repo.Device.find()
+    let allTopics: string[] = []
+    devices.forEach((device: Device) => {
+      allTopics = Array.from(new Set([...allTopics, ...device.topic])) // 理论上不可能有重复
+    })
+    this.appBootCache.topics = allTopics
   }
 
   async didReady() {
     // 应用已经启动完毕
+    // 订阅所有IoT设备的topic，在controller中处理消息队列和缓存机制
+    const mClient = this.app.mqttClient
+    // todo: refactor to use individual qos for each toipc
+    mClient.route(this.appBootCache.topics, this.app.controller.mqtt.mqtt.index)
   }
 
   async serverDidReady() {
