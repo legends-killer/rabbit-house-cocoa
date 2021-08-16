@@ -6,6 +6,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: '@hackycy/egg-typeorm',
   },
+  redis: {
+    enable: true,
+    package: 'egg-redis',
+  },
 }
 
 export default plugin
