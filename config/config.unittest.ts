@@ -3,6 +3,16 @@ import { join } from 'path'
 
 export default () => {
   const config: PowerPartial<EggAppConfig> = {}
+  const isInnerIp = function (ip: any) {
+    console.log(ip)
+    return true
+  }
+  config.security = {
+    csrf: {
+      // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
+      ignore: (ctx: any) => isInnerIp(ctx.ip),
+    },
+  }
   config.typeorm = {
     client: {
       type: 'better-sqlite3',
