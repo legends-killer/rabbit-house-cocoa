@@ -5,6 +5,6 @@ export default class MqttController extends Controller {
   public async index() {
     const ctx = this.ctx as IPluginContext
     console.log('我tm是controller', ctx.req.topic, ctx.req.message)
-    this.service.tool.redis.set(ctx.req.topic, ctx.req.message, 20000)
+    this.service.tool.redis.set(ctx.req.topic, JSON.parse(ctx.req.message), 86400)
   }
 }

@@ -7,26 +7,27 @@ export default class Redis extends Service {
     super(ctx)
     this.redis = ctx.app.redis
   }
-  async set(key: string, value: string, seconds = 86400) {
+  async set(key: string, value: any, seconds = 86400) {
+    // append timestrap to redis array
+    value.timeOnRedis = new Date()
     value = JSON.stringify(value)
     if (!seconds) {
-      await this.redis.set(key, value)
+      await this.redis.rpush(key, value)
     } else {
-      await this.redis.set(key, value, 'EX', seconds)
+      await this.redis.expire(key, seconds)
+      await this.redis.rpush(key, value)
     }
   }
-  async get(key) {
+  async get(key: string) {
     const { redis } = this.app
-    let data = await redis.get(key)
+    const data = await redis.lrange(key, 0, -1)
     if (!data) return
-    data = JSON.parse(data)
-    return data
+    return data.map((d) => {
+      return JSON.parse(d)
+    })
   }
   async getAllKey() {
-    await this.redis.keys('*', (err, value) => {
-      if (err) throw err
-      return value
-    })
+    return await this.redis.keys('*')
   }
   async flushAll() {
     const { redis } = this.app

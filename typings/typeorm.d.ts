@@ -5,6 +5,7 @@ import 'egg';
 import { TreeRepository, Repository } from 'typeorm'
 import EntityDevice from '../app/entity/device'
 import EntityInit from '../app/entity/init'
+import EntityRedis from '../app/entity/redis'
 import EntitySchedule from '../app/entity/schedule'
 
 declare module 'egg' {
@@ -12,11 +13,13 @@ declare module 'egg' {
     entity: {
       Device: typeof EntityDevice
       Init: typeof EntityInit
+      Redis: typeof EntityRedis
       Schedule: typeof EntitySchedule
     }
     repo: {
       Device: Repository<EntityDevice>
       Init: Repository<EntityInit>
+      Redis: Repository<EntityRedis>
       Schedule: Repository<EntitySchedule>
     }
   }
