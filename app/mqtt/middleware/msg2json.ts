@@ -5,7 +5,7 @@ export default () => {
       ctx.logger.info(ctx.req.msg)
       ctx.req.message = JSON.parse(ctx.req.msg)
     } catch (err) {
-      ctx.req.message = ctx.req.msg
+      ctx.logger.error(`json format middleware faild. err: ${err}. msg: ${ctx.req.msg}`)
     }
     await next()
     if (ctx.app.config.env !== 'prod')
