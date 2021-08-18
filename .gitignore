@@ -13,6 +13,7 @@ logs/
 !.eslintrc.js
 !.autod.conf.js
 !ormconfig.js
+*.log
 
 app/**/*.js
 test/**/*.js
