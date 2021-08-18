@@ -8,9 +8,9 @@
     "declarations": true
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-rabbit-house-cocoa",
+    "start": "egg-scripts start --daemon --title=egg-server-rabbit-house-cocoa --sticky",
     "stop": "egg-scripts stop --title=egg-server-rabbit-house-cocoa",
-    "dev": "egg-bin dev",
+    "dev": "egg-bin dev --sticky ",
     "debug": "egg-bin debug",
     "test-local": "egg-bin test",
     "test": "npm run lint -- --fix && npm run test-local",
@@ -29,6 +29,7 @@
     "egg-rabbit-house-mqtt-plugin": "^2.1.1",
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.6.0",
+    "egg-socket.io": "^4.1.6",
     "typeorm": "^0.2.36"
   },
   "devDependencies": {
