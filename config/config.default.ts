@@ -35,7 +35,10 @@ export default (appInfo: EggAppInfo) => {
   }
 
   // add your egg config in here
-  config.middleware = []
+  config.middleware = ['errorHandler']
+  config.errorHandler = {
+    match: ['/api'],
+  }
 
   // the return config will combines to EggAppConfig
   return {
