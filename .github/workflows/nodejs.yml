@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14]
+        node-version: [16]
         os: [ubuntu-latest]
 
     steps:
@@ -30,10 +30,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup yarn
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: config set ignore-engines true
+#       - name: Setup yarn
+#         uses: borales/actions-yarn@v2.3.0
+#         with:
+#           cmd: config set ignore-engines true
 
       - name: Install Dependencies
         uses: borales/actions-yarn@v2.3.0
