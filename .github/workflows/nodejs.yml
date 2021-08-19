@@ -30,10 +30,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Setup yarn
+        uses: actions/actions-yarn@v2.3.0
+        with:
+          cmd: config set ignore-engines true
+
       - name: Install Dependencies
         uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: config set ignore-engines true && install
+          cmd: install
 
       - name: Continuous Integration
         uses: borales/actions-yarn@v2.3.0
