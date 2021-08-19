@@ -30,6 +30,7 @@
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.6.0",
     "egg-socket.io": "^4.1.6",
+    "egg-validate": "^2.0.2",
     "typeorm": "^0.2.36"
   },
   "devDependencies": {

@@ -51,6 +51,33 @@ class AppBootHook {
   }
 
   async serverDidReady() {
+    // 添加自定义校验规则
+    this.app.validator.addRule('deviceApi', (rule, value) => {
+      try {
+        if (value !== undefined) {
+          Object.keys(value).forEach((key1) => {
+            // key1 -> apiName
+            let topicOk = false
+            let argsOk = false
+            const api = value[key1]
+            Object.keys(api).forEach((key2) => {
+              // key2 -> must be topic or args
+              if (key2 === 'topic' && typeof api[key2] === 'string' && api[key2] !== '') {
+                topicOk = true
+              }
+              if (key2 === 'args' && api[key2] instanceof Array && api[key2].length > 0) {
+                argsOk = true
+              }
+            })
+            if (!(topicOk && argsOk)) {
+              throw new Error(topicOk ? (argsOk ? '' : 'api args must be non-empty array') : 'api topic must be string')
+            }
+          })
+        }
+      } catch (err) {
+        return err.message
+      }
+    })
     // http / https server 已启动，开始接受外部请求
     // 此时可以从 app.server 拿到 server 的实例
   }
