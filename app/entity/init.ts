@@ -22,7 +22,6 @@ class InitConfig {
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
     nullable: true,
   })
   updatedAt: Date
