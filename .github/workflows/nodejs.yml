@@ -33,7 +33,7 @@ jobs:
       - name: Install Dependencies
         uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: install
+          cmd: config set ignore-engines true && install
 
       - name: Continuous Integration
         uses: borales/actions-yarn@v2.3.0
