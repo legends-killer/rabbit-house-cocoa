@@ -5,15 +5,18 @@ const TransApi = {
   from: (value: string) => {
     return JSON.parse(value) as IDeviceApi
   },
-  to: (value: IDeviceApi) => {
+  to: (value: IDeviceApi | undefined) => {
+    if (value === undefined) return ''
     return JSON.stringify(value)
   },
 }
 const TransStringArray = {
   from: (value: string) => {
+    if (value === undefined) return ''
     return value.split(',')
   },
-  to: (value: Array<string>) => {
+  to: (value: Array<string> | undefined) => {
+    if (value === undefined) return ''
     return value.toString()
   },
 }
@@ -53,7 +56,6 @@ class Device {
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
     nullable: true,
   })
   updatedAt: Date

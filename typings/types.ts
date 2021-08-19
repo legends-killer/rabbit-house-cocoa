@@ -8,3 +8,9 @@ interface mqttReq extends IncomingMessage {
 export interface IPluginContext extends Context {
   req: mqttReq
 }
+export interface IBody {
+  data: any
+  code: number
+  error: any
+  msg?: string
+}
