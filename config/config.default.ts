@@ -21,7 +21,7 @@ export default (appInfo: EggAppInfo) => {
       username: 'user',
       password: '123456',
       protocol: 'mqtt',
-      msgMiddleware: ['msg2json'],
+      msgMiddleware: ['msg2json', 'trigger'],
       options: {
         keepalive: 60,
         protocolId: 'MQTT',

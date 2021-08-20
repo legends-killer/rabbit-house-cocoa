@@ -7,6 +7,7 @@ import EntityDevice from '../app/entity/device'
 import EntityInit from '../app/entity/init'
 import EntityRedis from '../app/entity/redis'
 import EntitySchedule from '../app/entity/schedule'
+import EntityTrigger from '../app/entity/trigger'
 
 declare module 'egg' {
   interface Context {
@@ -15,12 +16,14 @@ declare module 'egg' {
       Init: typeof EntityInit
       Redis: typeof EntityRedis
       Schedule: typeof EntitySchedule
+      Trigger: typeof EntityTrigger
     }
     repo: {
       Device: Repository<EntityDevice>
       Init: Repository<EntityInit>
       Redis: Repository<EntityRedis>
       Schedule: Repository<EntitySchedule>
+      Trigger: Repository<EntityTrigger>
     }
   }
 }
