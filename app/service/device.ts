@@ -1,6 +1,5 @@
 import { Service } from 'egg'
 import Device from '../entity/device'
-import { IsNull } from 'typeorm'
 
 /**
  * device service
