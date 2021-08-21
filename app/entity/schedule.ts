@@ -24,6 +24,9 @@ class Schedule {
   @Column({ default: () => true })
   public sendResult: boolean // 是否发送执行结果通知
 
+  @Column({ nullable: true })
+  public waitBefore: number // 执行等待时间
+
   @Column('varchar', { transformer: TransWork })
   public work: IScheduleWork // JSON Object，定时任务内容
 
