@@ -33,13 +33,17 @@ class AppBootHook {
     // 可以做一些数据初始化等操作，这些操作成功才会启动应用
     // 例如：从数据库加载数据到内存缓存
     // get mqtt topics from db
+    // get all devices
     const repo = this.app.context.repo
-    const devices = await repo.Device.find()
+    const devices = (await repo.Device.find()) as Device[]
     let allTopics: string[] = []
+    const allDeviceConnections: string[] = []
     devices.forEach((device: Device) => {
       allTopics = Array.from(new Set([...allTopics, ...device.topic])) // 理论上不可能有重复
+      allDeviceConnections.push(device.connectionName)
     })
     this.appBootCache.topics = allTopics
+    this.appBootCache.deviceConnections = allDeviceConnections
   }
 
   async didReady() {
@@ -48,6 +52,14 @@ class AppBootHook {
     const mClient = this.app.mqttClient
     // todo: refactor to use individual qos for each toipc
     mClient.route(this.appBootCache.topics, this.app.controller.mqtt.mqtt.index)
+    // 设置设备初始化状态
+    this.appBootCache.deviceConnections.forEach(async (connectionName: string) => {
+      const initState = JSON.stringify({
+        online: true,
+        locked: false,
+      })
+      this.app.redis.get('device').set(connectionName, initState)
+    })
   }
 
   async serverDidReady() {
