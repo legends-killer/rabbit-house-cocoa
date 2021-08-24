@@ -12,11 +12,12 @@ export default class PersistRedis extends Subscription {
   async subscribe() {
     const { ctx } = this
     const { app, service, ormManager } = ctx
-    const keys = await service.tool.redis.getAllKey()
+    const keys = await service.tool.redis.getAllKey('mqtt')
+    console.log(keys)
     const dbAll = [] as Redis[]
     try {
       for (const key of keys) {
-        const values = (await service.tool.redis.get(key)) || []
+        const values = (await service.tool.redis.getArr('mqtt', key)) || []
 
         // find the last persisted value
         const db = ctx.repo.Redis.createQueryBuilder('redis')
