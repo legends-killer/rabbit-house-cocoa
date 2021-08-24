@@ -3,9 +3,9 @@ import { IScheduleWork } from '../types'
 
 const TransWork = {
   from: (value: string) => {
-    return JSON.parse(value) as IScheduleWork
+    return JSON.parse(value) as Array<IScheduleWork | number>
   },
-  to: (value: IScheduleWork) => {
+  to: (value: Array<IScheduleWork | number>) => {
     return JSON.stringify(value)
   },
 }
@@ -28,7 +28,7 @@ class Schedule {
   public waitBefore: number // 执行等待时间
 
   @Column('varchar', { transformer: TransWork })
-  public work: IScheduleWork // JSON Object，定时任务内容
+  public work: Array<IScheduleWork | number> // JSON 对象数组，定时任务内容
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',
