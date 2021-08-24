@@ -18,10 +18,6 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-validate',
   },
-  bus: {
-    enable: true,
-    package: 'egg-bus',
-  },
 }
 
 export default plugin
