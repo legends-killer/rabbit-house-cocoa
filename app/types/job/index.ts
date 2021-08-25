@@ -3,7 +3,7 @@
  * 本质就是调设备api，发布mqtt包
  * @see https://eggjs.org/zh-cn/basics/schedule.html#定时方式 定时方式为corn
  */
-export interface IScheduleWork {
+export interface IJobWork {
   // [index: number]: workItem | number // number则对应另一个scheduleId
   waitBefore: number
   apiTopic: string

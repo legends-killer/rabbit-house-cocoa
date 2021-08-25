@@ -1,4 +1,4 @@
 import { IDeviceApi } from './device'
-import { IScheduleWork } from './schedule'
+import { IJobWork } from './job'
 
-export { IDeviceApi, IScheduleWork }
+export { IDeviceApi, IJobWork }
