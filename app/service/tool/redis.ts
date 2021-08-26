@@ -1,9 +1,10 @@
 import { Service, Singleton } from 'egg'
 import { Redis } from 'ioredis'
+import { IRedisDbName } from '../../types'
 
 export default class RedisTool extends Service {
   private redis = this.app.redis as Singleton<Redis> & Redis
-  async set(db: string, key: string, value: any, seconds?: number) {
+  async set(db: IRedisDbName, key: string, value: any, seconds?: number) {
     const { redis } = this
     value.timeOnRedis = new Date()
     value = JSON.stringify(value)
@@ -15,18 +16,18 @@ export default class RedisTool extends Service {
     }
   }
 
-  async get(db: string, key: string) {
+  async get(db: IRedisDbName, key: string) {
     const { redis } = this
     const data = await redis.get(db).get(key)
     if (!data) return
     return JSON.parse(data)
   }
 
-  async delete(db: string, key: string) {
+  async delete(db: IRedisDbName, key: string) {
     return await this.redis.get(db).del(key)
   }
 
-  async setArr(db: string, key: string, value: any, seconds?: number) {
+  async setArr(db: IRedisDbName, key: string, value: any, seconds?: number) {
     // append timestrap to redis array
     const { redis } = this
     value.timeOnRedis = new Date()
@@ -39,7 +40,7 @@ export default class RedisTool extends Service {
     }
   }
 
-  async getArr(db: string, key: string) {
+  async getArr(db: IRedisDbName, key: string) {
     const { redis } = this
     const data = await redis.get(db).lrange(key, 0, -1)
     if (!data) return
@@ -48,12 +49,12 @@ export default class RedisTool extends Service {
     })
   }
 
-  async getAllKey(db: string) {
+  async getAllKey(db: IRedisDbName) {
     const { redis } = this
     return await redis.get(db).keys('*')
   }
 
-  async flushAll(db: string) {
+  async flushAll(db: IRedisDbName) {
     const { redis } = this
     redis.get(db).flushall()
     return
