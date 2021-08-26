@@ -55,7 +55,7 @@ class AppBootHook {
     // 设置设备初始化状态
     this.appBootCache.deviceConnections.forEach(async (connectionName: string) => {
       const initState = JSON.stringify({
-        online: true,
+        online: false,
         locked: false,
       })
       this.app.redis.get('device').set(connectionName, initState)

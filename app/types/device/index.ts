@@ -12,3 +12,10 @@ export interface IDeviceApi {
     }
   }
 }
+/**
+ * 设备状态定义
+ */
+export interface IDeviceStatus {
+  online: boolean
+  locked: boolean
+}
