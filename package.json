@@ -31,7 +31,8 @@
     "egg-scripts": "^2.6.0",
     "egg-socket.io": "^4.1.6",
     "egg-validate": "^2.0.2",
-    "typeorm": "^0.2.36"
+    "typeorm": "^0.2.36",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
