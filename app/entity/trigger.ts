@@ -18,7 +18,7 @@ class Trigger {
   id: number
 
   @Column()
-  deviceId: number // trigger所属设备id
+  name: string
 
   @Column('varchar', { transformer: TransNumberArray })
   JobId: number[] // 对应调起job表的任务
