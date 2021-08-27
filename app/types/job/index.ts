@@ -4,8 +4,8 @@
  * @see https://eggjs.org/zh-cn/basics/schedule.html#定时方式 定时方式为corn
  */
 export interface IJobWork {
-  // [index: number]: workItem | number // number则对应另一个scheduleId
   waitBefore: number
   apiTopic: string
+  apiDevice: string // 用connectionName代表device
   args: string[]
 }

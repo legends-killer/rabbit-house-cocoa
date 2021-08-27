@@ -18,4 +18,5 @@ export interface IDeviceApi {
 export interface IDeviceStatus {
   online: boolean
   locked: boolean
+  pendingQueue: string[]
 }
