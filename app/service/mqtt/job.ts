@@ -1,5 +1,5 @@
 import { Service } from 'egg'
-import { IJobWork } from '../../types'
+import { IJobWork, ITaskQueue } from '../../types'
 
 export default class JobService extends Service {
   /**
@@ -19,5 +19,9 @@ export default class JobService extends Service {
       }
     }
     return result
+  }
+
+  isFinished(queue: ITaskQueue) {
+    return queue.jobs.length === queue.jobPointer + 1
   }
 }

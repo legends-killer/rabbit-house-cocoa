@@ -19,8 +19,10 @@ export default class QueueService extends Service {
     queueItem.status = 'pending'
     queueItem.jobPointer = 0
     queueItem.jobs = jobs
+    const uuid = uuidv4()
 
-    return await this.ctx.service.tool.redis.set('job', uuidv4(), JSON.stringify(queueItem))
+    await this.ctx.service.tool.redis.set('job', uuid, JSON.stringify(queueItem))
+    return uuid
   }
 
   async update(uuid: string, status?: 'pending' | 'running' | 'completed', jobPointer?: number) {

@@ -1,4 +1,5 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg'
+import { join } from 'path'
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>
@@ -21,7 +22,7 @@ export default (appInfo: EggAppInfo) => {
       username: 'user',
       password: '123456',
       protocol: 'mqtt',
-      msgMiddleware: ['msg2json', 'trigger'],
+      msgMiddleware: ['msg2json'],
       options: {
         keepalive: 60,
         protocolId: 'MQTT',
@@ -38,6 +39,13 @@ export default (appInfo: EggAppInfo) => {
   config.middleware = ['errorHandler']
   config.errorHandler = {
     match: ['/api'],
+  }
+
+  // taskQueue logger
+  config.customLogger = {
+    taskLogger: {
+      file: join(appInfo.root, 'logs/task.log'),
+    },
   }
 
   // the return config will combines to EggAppConfig

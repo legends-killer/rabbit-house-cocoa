@@ -11,10 +11,11 @@ export default class DeviceService extends Service {
     return JSON.parse((await this.ctx.service.tool.redis.get('device', connectionName)) || '{}') as IDeviceStatus
   }
 
-  async update(connectionName: string, online?: boolean, locked?: boolean) {
+  async update(connectionName: string, online?: boolean, locked?: boolean, pendingQueue?: string[]) {
     const statusWillUpdate = await this.index(connectionName)
     if (typeof online === 'boolean') statusWillUpdate.online = online
     if (typeof locked === 'boolean') statusWillUpdate.locked = locked
+    if (pendingQueue) statusWillUpdate.pendingQueue = pendingQueue
     return await this.ctx.service.tool.redis.set('device', connectionName, statusWillUpdate)
   }
 }

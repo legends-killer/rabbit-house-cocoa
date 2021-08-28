@@ -6,6 +6,9 @@
 export interface IJobWork {
   waitBefore: number
   apiTopic: string
-  apiDevice: string // 用connectionName代表device
-  args: string[]
+  connectionName: string // 用connectionName代表device
+  name?: string
+  args: {
+    [index: string]: any
+  }
 }
