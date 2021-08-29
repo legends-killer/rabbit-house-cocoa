@@ -21,7 +21,7 @@ class Trigger {
   name: string
 
   @Column('varchar', { transformer: TransNumberArray })
-  JobId: number[] // 对应调起job表的任务
+  jobId: number[] // 对应调起job表的任务
 
   @Column('datetime', {
     default: () => 'CURRENT_TIMESTAMP',
