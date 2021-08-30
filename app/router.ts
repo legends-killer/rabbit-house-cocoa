@@ -6,4 +6,5 @@ export default (app: Application) => {
   router.get('/', controller.home.index)
   router.resources('device', '/api/device', controller.device)
   router.resources('trigger', '/api/trigger', controller.trigger)
+  router.resources('job', '/api/job', controller.job)
 }
