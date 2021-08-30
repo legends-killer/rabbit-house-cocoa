@@ -2,7 +2,7 @@ import { Service, Singleton } from 'egg'
 import { Redis } from 'ioredis'
 import { IRedisDbName } from '../../types'
 
-export default class RedisTool extends Service {
+export default class RedisService extends Service {
   private redis = this.app.redis as Singleton<Redis> & Redis
   async set(db: IRedisDbName, key: string, value: any, seconds?: number) {
     const { redis } = this

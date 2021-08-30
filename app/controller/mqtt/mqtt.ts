@@ -6,9 +6,9 @@ export default class MqttController extends Controller {
     const ctx = this.ctx as IPluginContext
     console.log('我tm是controller', ctx.req.topic, ctx.req.message)
     const { topic, message } = ctx.req
-    // todo: 处理device完成任务后的回调
+    this.service.tool.redis.setArr('mqtt', topic, message, 86400)
+
     const apiDoneReg = /.*(?<=done)$/
-    this.service.tool.redis.set('mqtt', topic, message, 86400)
     if (apiDoneReg.test(topic)) {
       // 收到任务执行完成的信息
       if (!ctx.req.message.success) {
