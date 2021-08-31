@@ -4,6 +4,7 @@ export default (app: Application) => {
   const { controller, router, io, mqttClient } = app
 
   router.get('/', controller.home.index)
+  router.post('/api/dispatch', controller.dispatcher.index)
   router.resources('device', '/api/device', controller.device)
   router.resources('trigger', '/api/trigger', controller.trigger)
   router.resources('job', '/api/job', controller.job)

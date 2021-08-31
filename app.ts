@@ -39,8 +39,12 @@ class AppBootHook {
     let allTopics: string[] = []
     const allDeviceConnections: string[] = []
     devices.forEach((device: Device) => {
-      allTopics = Array.from(new Set([...allTopics, ...device.topic])) // 理论上不可能有重复
       allDeviceConnections.push(device.connectionName)
+      allTopics = Array.from(new Set([...allTopics, ...device.topic])) // 理论上不可能有重复
+      Object.keys(device.api).forEach((key) => {
+        const api = device.api[key]
+        allTopics.push(api.topic + '/done')
+      })
     })
     this.appBootCache.topics = allTopics
     this.appBootCache.deviceConnections = allDeviceConnections
@@ -55,10 +59,11 @@ class AppBootHook {
     // 设置设备初始化状态
     this.appBootCache.deviceConnections.forEach(async (connectionName: string) => {
       const initState = JSON.stringify({
-        online: false,
+        online: true,
         locked: false,
+        pendingQueue: [],
       })
-      this.app.redis.get('device').set(connectionName, initState)
+      await this.app.redis.get('device').set(connectionName, initState)
     })
   }
 
