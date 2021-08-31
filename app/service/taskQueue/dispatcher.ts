@@ -73,6 +73,12 @@ export default class DispatchService extends Service {
       this.ctx.app
         .getLogger('taskLogger')
         .info(`[Job Execution Info ${uuid} ] Job ${jobWillBeDispatched.name || 'name not found'} Is Running`)
+      await this.ctx.service.taskQueue.monitor.push({
+        uuid,
+        connectionName: job.connectionName,
+        apiTopic: job.apiTopic,
+        args: job.args,
+      })
     })
   }
 

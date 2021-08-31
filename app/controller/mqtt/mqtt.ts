@@ -18,8 +18,11 @@ export default class MqttController extends Controller {
       const device = await ctx.service.taskQueue.device.index(jobs[jobPointer].connectionName)
       console.log('pending queue', device.pendingQueue)
 
-      // 先解除锁
-      await ctx.service.taskQueue.device.update(jobs[jobPointer].connectionName, undefined, false)
+      // 先解除锁，pop监视器栈
+      Promise.all([
+        ctx.service.taskQueue.device.update(jobs[jobPointer].connectionName, undefined, false),
+        ctx.service.taskQueue.monitor.pop(uuid),
+      ])
 
       if (!ctx.req.message.success) {
         // 执行任务未成功
@@ -27,7 +30,6 @@ export default class MqttController extends Controller {
           .getLogger('taskLogger')
           .error(`[Job Execution Error ${message.uuid} ] device: ${message.device} error: ${message.error}`)
         // todo: send error message
-        return
       }
       if (ctx.service.mqtt.job.isFinished(queue)) {
         // 队列已完成

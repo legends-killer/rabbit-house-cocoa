@@ -49,6 +49,11 @@ export default class RedisService extends Service {
     })
   }
 
+  async delArrItem(db: IRedisDbName, key: string, count: number, value: string) {
+    const { redis } = this
+    return await redis.get(db).lrem(key, count, value)
+  }
+
   async getAllKey(db: IRedisDbName) {
     const { redis } = this
     return await redis.get(db).keys('*')
