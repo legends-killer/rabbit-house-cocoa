@@ -7,7 +7,7 @@ const jobRule = {
   waitBefore: 'number?',
   work: 'array',
 }
-export default class HomeController extends Controller {
+export default class JobController extends Controller {
   async index() {
     const { ctx } = this
     const query = ctx.query

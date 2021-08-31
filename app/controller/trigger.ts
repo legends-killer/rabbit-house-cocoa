@@ -5,7 +5,7 @@ const triggerRule = {
   name: 'string',
   jobId: { type: 'array', itemType: 'number' },
 }
-export default class HomeController extends Controller {
+export default class TriggerController extends Controller {
   async index() {
     const { ctx } = this
     const query = ctx.query

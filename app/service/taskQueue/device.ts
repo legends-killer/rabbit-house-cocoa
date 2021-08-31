@@ -8,7 +8,8 @@ import { IDeviceStatus } from '../../types'
 
 export default class DeviceService extends Service {
   async index(connectionName: string) {
-    return JSON.parse((await this.ctx.service.tool.redis.get('device', connectionName)) || '{}') as IDeviceStatus
+    console.log('device', await this.ctx.service.tool.redis.get('device', connectionName))
+    return ((await this.ctx.service.tool.redis.get('device', connectionName)) as IDeviceStatus) || {}
   }
 
   async update(connectionName: string, online?: boolean, locked?: boolean, pendingQueue?: string[]) {
@@ -16,6 +17,7 @@ export default class DeviceService extends Service {
     if (typeof online === 'boolean') statusWillUpdate.online = online
     if (typeof locked === 'boolean') statusWillUpdate.locked = locked
     if (pendingQueue) statusWillUpdate.pendingQueue = pendingQueue
+    console.log('new device status', statusWillUpdate)
     return await this.ctx.service.tool.redis.set('device', connectionName, statusWillUpdate)
   }
 }

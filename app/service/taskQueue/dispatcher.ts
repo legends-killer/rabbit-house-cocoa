@@ -16,6 +16,7 @@ export default class DispatchService extends Service {
     const queue = await this.ctx.service.taskQueue.queue.index(uuid)
     if (JSON.stringify(queue) === '{}') {
       // 找不到执行队列
+      console.log('no queue found')
       this.ctx.app.getLogger('taskLogger').error(`[Job Execution Error ${uuid} ] Job Queue Not Found: ${queue}`)
       return
     }
@@ -23,6 +24,7 @@ export default class DispatchService extends Service {
     const { jobPointer, status } = queue
     if (status === 'completed') {
       // 当前队列已完成
+      console.log('queue is finished')
       this.ctx.app.getLogger('taskLogger').error(`[Job Execution Error ${uuid} ] Job Queue Is Not Pending: ${status}`)
       return
     }
@@ -31,6 +33,7 @@ export default class DispatchService extends Service {
     const deviceStatus = await this.ctx.service.taskQueue.device.index(jobWillBeDispatched.connectionName)
     if (!deviceStatus.online) {
       // 执行当前job的设备不在线
+      console.log('device is not online')
       this.ctx.app
         .getLogger('taskLogger')
         .error(`[Job Execution Error ${uuid} ] Device Is Offline: ${jobWillBeDispatched.connectionName}`)
@@ -39,6 +42,7 @@ export default class DispatchService extends Service {
 
     if (deviceStatus.locked) {
       // 执行当前job的设备被锁住
+      console.log('device is locked')
       deviceStatus.pendingQueue.push(uuid)
       Promise.all([
         this.ctx.service.taskQueue.queue.update(uuid, 'pending'),
@@ -61,9 +65,11 @@ export default class DispatchService extends Service {
     }
 
     // 没任何问题，直接执行当前job
+    console.log('doing job execution')
     const job = queue.jobs[jobPointer]
-    this.ctx.service.taskQueue.queue.update(uuid, 'running')
-    this.ctx.app.mqttClient.publish(job.apiTopic, JSON.stringify(job.args), () => {
+    await this.ctx.service.taskQueue.queue.update(uuid, 'running')
+    await this.ctx.service.taskQueue.device.update(jobWillBeDispatched.connectionName, undefined, true)
+    this.ctx.app.mqttClient.publish(job.apiTopic, JSON.stringify({ ...job.args, uuid }), async () => {
       this.ctx.app
         .getLogger('taskLogger')
         .info(`[Job Execution Info ${uuid} ] Job ${jobWillBeDispatched.name || 'name not found'} Is Running`)
@@ -74,8 +80,10 @@ export default class DispatchService extends Service {
     const device = await this.ctx.service.taskQueue.device.index(connectionName)
     const { pendingQueue, locked, online } = device
     const jobWillBeDispatched = pendingQueue[0]
+    console.log('dispatch pending', jobWillBeDispatched)
     const newQueue = pendingQueue.slice(1, pendingQueue.length)
     await this.dispatch(jobWillBeDispatched)
+    await this.ctx.service.taskQueue.device.update(connectionName, undefined, false, newQueue)
   }
 
   async retry() {} // 重试任务

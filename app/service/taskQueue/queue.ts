@@ -10,7 +10,7 @@ import { ITaskQueue, IJobWork } from '../../types'
 
 export default class QueueService extends Service {
   async index(uuid: string) {
-    const queue = JSON.parse((await this.ctx.service.tool.redis.get('device', uuid)) || '{}') as ITaskQueue
+    const queue = ((await this.ctx.service.tool.redis.get('job', uuid)) as ITaskQueue) || {}
     return queue
   }
 
@@ -21,7 +21,7 @@ export default class QueueService extends Service {
     queueItem.jobs = jobs
     const uuid = uuidv4()
 
-    await this.ctx.service.tool.redis.set('job', uuid, JSON.stringify(queueItem))
+    await this.ctx.service.tool.redis.set('job', uuid, queueItem)
     return uuid
   }
 
@@ -30,7 +30,7 @@ export default class QueueService extends Service {
     if (status) itemWillUpdate.status = status
     if (jobPointer) itemWillUpdate.jobPointer = jobPointer
 
-    return await this.ctx.service.tool.redis.set('job', uuid, JSON.stringify(itemWillUpdate))
+    return await this.ctx.service.tool.redis.set('job', uuid, itemWillUpdate)
   }
 
   async destroy(uuid: string) {
