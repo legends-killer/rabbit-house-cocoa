@@ -92,7 +92,7 @@ class AppBootHook {
           })
         }
       } catch (err) {
-        return err.message
+        return (err as any).message
       }
     })
     // http / https server 已启动，开始接受外部请求

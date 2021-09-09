@@ -29,13 +29,28 @@ export default class MqttController extends Controller {
         ctx
           .getLogger('taskLogger')
           .error(`[Job Execution Error ${message.uuid} ] device: ${message.device} error: ${message.error}`)
+        await ctx.service.taskQueue.queue.update(uuid, undefined, undefined, {
+          level: 'error',
+          domain: `taskQueueMainJob-${queue.mainJobId}`,
+          msg: `the NO.${jobPointer} job ${queue.jobs[jobPointer].name ?? 'name not fount'} has error. uuid: ${
+            message.uuid
+          } device: ${message.device} error: ${message.error}`,
+        })
         // todo: send error message
+      } else {
+        // 执行任务成功
+        await ctx.service.taskQueue.queue.update(uuid, undefined, undefined, {
+          msg: `the NO.${jobPointer} job ${queue.jobs[jobPointer].name ?? 'name not fount'} finished successfully`,
+          level: 'info',
+          domain: `taskQueueMainJob-${queue.mainJobId}`,
+        })
       }
+
       if (ctx.service.mqtt.job.isFinished(queue)) {
         // 队列已完成
         console.log('queue done!!!')
         currentQueueIsDone = true
-        await ctx.service.taskQueue.queue.update(uuid, 'completed', undefined)
+        Promise.all([ctx.service.taskQueue.queue.update(uuid, 'completed'), ctx.service.taskQueue.queue.save(uuid)])
       }
 
       // 当前设备状态

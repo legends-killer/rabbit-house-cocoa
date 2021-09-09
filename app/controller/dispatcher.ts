@@ -7,7 +7,7 @@ export default class DispatcherController extends Controller {
     const { jobId } = ctx.request.body
     const body = {} as IBody
     const jobQueue = await ctx.service.mqtt.job.assembleJob(jobId)
-    const queueId = await ctx.service.taskQueue.queue.create(jobQueue)
+    const queueId = await ctx.service.taskQueue.queue.create(jobId, jobQueue)
     console.log(queueId)
     await ctx.service.taskQueue.dispatcher.dispatch(queueId)
 
