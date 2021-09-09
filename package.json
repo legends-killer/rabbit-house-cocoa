@@ -24,6 +24,7 @@
   "dependencies": {
     "@hackycy/egg-typeorm": "^0.5.1",
     "better-sqlite3": "^7.4.3",
+    "cron-parser": "^4.0.0",
     "egg": "^2.30.0",
     "egg-cors": "^2.2.3",
     "egg-rabbit-house-mqtt-plugin": "^2.1.1",
