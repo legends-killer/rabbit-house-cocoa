@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm'
 // 定时任务
 @Entity()
 class Schedule {
   @PrimaryGeneratedColumn()
   id: number
 
+  @Index({ unique: true })
   @Column()
   name: string
 

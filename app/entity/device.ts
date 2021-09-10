@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm'
 import { IDeviceApi } from '../types'
 
 const TransApi = {
@@ -27,12 +27,14 @@ class Device {
   @PrimaryGeneratedColumn()
   public id: number
 
+  @Index({ unique: true })
   @Column()
   public clientName: string // 设备名称
 
   @Column({ nullable: true })
   public description: string // 设备描述
 
+  @Index({ unique: true })
   @Column()
   public connectionName: string // 设备mqtt客户端连接名
 

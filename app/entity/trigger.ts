@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm'
 const TransNumberArray = {
   from: (value: string) => {
     if (value === undefined) return ''
@@ -17,6 +17,7 @@ class Trigger {
   @PrimaryGeneratedColumn()
   id: number
 
+  @Index({ unique: true })
   @Column()
   name: string
 

@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm'
 import { IJobWork } from '../types'
 
 const TransWork = {
@@ -15,6 +15,7 @@ class Job {
   @PrimaryGeneratedColumn()
   public id: number
 
+  @Index({ unique: true })
   @Column()
   public name: string // 任务名称
 
