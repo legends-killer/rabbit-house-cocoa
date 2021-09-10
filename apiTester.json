@@ -245,19 +245,6 @@
               "textBody": "{\n  \"jobId\": 4\n}"
             },
             "uri": {
-              "query": {
-                "delimiter": "&",
-                "items": [
-                  {
-                    "name": "id",
-                    "value": ""
-                  },
-                  {
-                    "name": "clientName",
-                    "value": "esp32"
-                  }
-                ]
-              },
               "scheme": {
                 "name": "http",
                 "version": "V11"
@@ -616,6 +603,203 @@
                 "value": "dd906ab3-a2e9-4529-a1a7-861dce7afe28"
               },
               {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.5",
+              "name": "DELETE"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBodyEditorHeight": 233,
+              "textBody": "{\n  \"clientName\": \"qqq1\",\n  \"description\": \"yyy's device\",\n  \"connectionName\": \"yyy-con\",\n  \"api\": {\n    \"api1\": {\n      \"topic\": \"aaa\",\n      \"args\": [\"a\"]\n    }\n  },\n  \"receiveMiddleware\": [\"mw2\"],\n  \"topic\": [\"t1\",\"t2\"]\n}"
+            },
+            "uri": {
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:7001",
+              "path": "/api/schedule/1"
+            },
+            "id": "b3e36aa6-3107-49cb-bf7e-af8353ee58f2",
+            "name": "schedule del",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "dd906ab3-a2e9-4529-a1a7-861dce7afe28"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBodyEditorHeight": 233,
+              "textBody": ""
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "id",
+                    "value": ""
+                  },
+                  {
+                    "enabled": true,
+                    "name": "name",
+                    "value": ""
+                  },
+                  {
+                    "enabled": true,
+                    "name": "triggerId",
+                    "value": ""
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:7001",
+              "path": "/api/schedule"
+            },
+            "id": "086e1fb9-0cfa-4d64-b9a9-d1ffb12b788f",
+            "name": "schedule get",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "dd906ab3-a2e9-4529-a1a7-861dce7afe28"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBodyEditorHeight": 233,
+              "textBody": "{\n  \"name\": \"schedule test 3\",\n  \"triggerId\": 3,\n  \"dispatchTime\": \"0 0 */2 * * *\"\n}"
+            },
+            "uri": {
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:7001",
+              "path": "/api/schedule"
+            },
+            "id": "1971cec9-f8c4-478a-a046-622cd273e9b2",
+            "name": "schedule post",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "dd906ab3-a2e9-4529-a1a7-861dce7afe28"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+              "name": "PUT"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBodyEditorHeight": 233,
+              "textBody": "{\n  \"name\": \"new schedule 2\",\n  \"triggerId\": 3,\n  \"dispatchTime\": \"0 0 */1 * * *\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "name": "id",
+                    "value": ""
+                  },
+                  {
+                    "name": "clientName",
+                    "value": "esp32"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:7001",
+              "path": "/api/schedule/2"
+            },
+            "id": "e4054fcd-daf3-4d82-958a-603e81ce1f6c",
+            "name": "schedule put",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "dd906ab3-a2e9-4529-a1a7-861dce7afe28"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "enabled": true,
                 "name": "Content-Type",
                 "value": "application/json"
               }
