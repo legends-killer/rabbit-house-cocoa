@@ -65,6 +65,8 @@ class AppBootHook {
       })
       await this.app.redis.get('device').set(connectionName, initState)
     })
+    // 设置自定义定时任务触发
+    this.app.config.nextTick = await this.app.createAnonymousContext().service.schedule.getNextTick()
   }
 
   async serverDidReady() {
@@ -97,6 +99,19 @@ class AppBootHook {
     })
     // http / https server 已启动，开始接受外部请求
     // 此时可以从 app.server 拿到 server 的实例
+    if (this.app.config.env !== 'prod') {
+      setInterval(() => {
+        this.memCheck()
+      }, 10000)
+    }
+  }
+  memCheck() {
+    const used = process.memoryUsage()
+    console.log('--------------')
+    for (const key in used) {
+      console.log(`${key} ${Math.round((used[key] / 1024 / 1024) * 100) / 100} MB`)
+    }
+    console.log('--------------')
   }
 }
 

@@ -8,6 +8,9 @@ export default (appInfo: EggAppInfo) => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1628153884425_2807'
 
+  // schedule nextTick cron
+  config.nextTick = ''
+
   // mqtt
   config.rabbitHouseMqttPlugin = {
     server: {
