@@ -49,7 +49,7 @@ export default (appInfo: EggAppInfo) => {
     match: ['/api'],
   }
   config.tokenHandler = {
-    match: ['/api'],
+    ignore: ['/api/refreshToken'],
   }
 
   // taskQueue logger

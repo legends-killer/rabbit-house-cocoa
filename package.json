@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@hackycy/egg-typeorm": "^0.5.1",
+    "@types/node-rsa": "^1.1.1",
     "better-sqlite3": "^7.4.3",
     "cron-parser": "^4.0.0",
     "egg": "^2.30.0",
@@ -33,6 +34,7 @@
     "egg-scripts": "^2.6.0",
     "egg-socket.io": "^4.1.6",
     "egg-validate": "^2.0.2",
+    "node-rsa": "^1.1.1",
     "typeorm": "^0.2.36",
     "uuid": "^8.3.2"
   },
@@ -58,7 +60,7 @@
     "node": ">=14.17.0"
   },
   "ci": {
-    "version": "14"
+    "version": "16"
   },
   "repository": {
     "type": "git",

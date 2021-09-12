@@ -64,4 +64,17 @@ export default class UserController extends Controller {
     body.msg = 'success'
     ctx.body = body
   }
+
+  async refreshToken() {
+    const { ctx } = this
+    const body = {} as IBody
+    console.log(ctx.header.authorization)
+    const res = await ctx.service.user.refreshToken(ctx.header.authorization!)
+
+    body.code = 200
+    body.data = res
+    body.error = 0
+    body.msg = 'success'
+    ctx.body = body
+  }
 }

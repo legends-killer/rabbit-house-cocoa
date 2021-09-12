@@ -32,4 +32,20 @@ export default class UserService extends Service {
     const deletedUser = { ...rawWillBeUpdated, deletedAt: new Date() } as User
     return await db.update(id, deletedUser)
   }
+
+  async refreshToken(token: string) {
+    const db = this.ctx.repo.User
+    console.log(token)
+    const user = await this.service.tool.redis.get('sys', token)
+    if (!user) this.ctx.throw(403, 'old token is invalid', { code: '40300' })
+
+    delete user.timeOnRedis
+    await this.service.tool.redis.delete('sys', token)
+
+    const newToken = this.app.jwt.sign({ username: user.username }, this.app.config.jwt.secret)
+    const newUser = { ...user, token: newToken, tokenExp: new Date(new Date().getTime() + 7 * 24 * 3600 * 1000) }
+    await Promise.all([db.update(newUser.id, newUser), this.service.tool.redis.set('sys', newToken, newUser)])
+
+    return { newToken }
+  }
 }
