@@ -10,6 +10,7 @@ import EntityLog from '../app/entity/log'
 import EntityRedis from '../app/entity/redis'
 import EntitySchedule from '../app/entity/schedule'
 import EntityTrigger from '../app/entity/trigger'
+import EntityUser from '../app/entity/user'
 
 declare module 'egg' {
   interface Context {
@@ -21,6 +22,7 @@ declare module 'egg' {
       Redis: typeof EntityRedis
       Schedule: typeof EntitySchedule
       Trigger: typeof EntityTrigger
+      User: typeof EntityUser
     }
     repo: {
       Device: Repository<EntityDevice>
@@ -30,6 +32,7 @@ declare module 'egg' {
       Redis: Repository<EntityRedis>
       Schedule: Repository<EntitySchedule>
       Trigger: Repository<EntityTrigger>
+      User: Repository<EntityUser>
     }
   }
 }

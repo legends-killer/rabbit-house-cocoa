@@ -11,4 +11,5 @@ export default (app: Application) => {
   router.resources('trigger', '/api/trigger', controller.trigger)
   router.resources('job', '/api/job', controller.job)
   router.resources('schedule', '/api/schedule', controller.schedule)
+  router.resources('user', '/api/user', controller.user)
 }
