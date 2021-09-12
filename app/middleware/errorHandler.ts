@@ -1,5 +1,7 @@
+import { Context } from 'egg'
+
 export default () => {
-  return async function errorHandler(ctx, next) {
+  return async function errorHandler(ctx: Context, next: () => Promise<any>) {
     try {
       await next()
     } catch (err) {

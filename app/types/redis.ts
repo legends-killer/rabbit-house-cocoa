@@ -1,1 +1,1 @@
-export type IRedisDbName = 'mqtt' | 'job' | 'device'
+export type IRedisDbName = 'mqtt' | 'job' | 'device' | 'sys'

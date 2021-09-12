@@ -18,7 +18,7 @@ module.exports = (app: Application) => {
 
       let jobId = [] as Array<number>
       for (const work of works) {
-        const trigger = (await ctx.service.trigger.index({ id: work!.triggerId }))[0][0]
+        const trigger = (await ctx.service.trigger.index({ id: work!.triggerId }))[0].pop()
         if (trigger) {
           jobId.push(...trigger.jobId)
         }
