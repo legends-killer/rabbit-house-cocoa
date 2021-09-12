@@ -11,6 +11,11 @@ export default (appInfo: EggAppInfo) => {
   // schedule nextTick cron
   config.nextTick = ''
 
+  // jwt config
+  config.jwt = {
+    secret: 'your_jwt_secret',
+  }
+
   // mqtt
   config.rabbitHouseMqttPlugin = {
     server: {
@@ -39,8 +44,11 @@ export default (appInfo: EggAppInfo) => {
   }
 
   // add your egg config in here
-  config.middleware = ['errorHandler']
+  config.middleware = ['errorHandler', 'tokenHandler']
   config.errorHandler = {
+    match: ['/api'],
+  }
+  config.tokenHandler = {
     match: ['/api'],
   }
 

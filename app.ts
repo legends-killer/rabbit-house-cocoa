@@ -65,8 +65,27 @@ class AppBootHook {
       })
       await this.app.redis.get('device').set(connectionName, initState)
     })
+
+    const service = this.app.createAnonymousContext().service
     // 设置自定义定时任务触发
-    this.app.config.nextTick = await this.app.createAnonymousContext().service.schedule.getNextTick()
+    this.app.config.nextTick = await service.schedule.getNextTick()
+    // 添加默认用户 admin
+    const allUser = (await service.user.index({}))[0]
+    let hasAdmin = false
+    for (const user of allUser) {
+      if (user.username === 'admin') {
+        hasAdmin = true
+        break
+      }
+    }
+    if (!hasAdmin) {
+      const admin = await service.user.create({ username: 'admin' } as any)
+      if (admin.token) {
+        console.log('----------------')
+        console.log(`default admin created, please save your token: \x1B[31m${admin.token}\x1B[0m`)
+        console.log('----------------')
+      }
+    }
   }
 
   async serverDidReady() {

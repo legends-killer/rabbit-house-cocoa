@@ -5,5 +5,6 @@ declare module 'egg' {
   interface Application {
     mqtt: any
     redis: Singleton<Redis> & Redis
+    jwt: any
   }
 }

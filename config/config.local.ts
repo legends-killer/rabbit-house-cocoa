@@ -13,6 +13,10 @@ export default () => {
       ignore: (ctx: any) => isInnerIp(ctx.ip),
     },
   }
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  }
   config.typeorm = {
     client: {
       type: 'better-sqlite3',
@@ -48,6 +52,12 @@ export default () => {
         host: '192.168.137.30',
         password: '123456',
         db: 2,
+      },
+      sys: {
+        port: 6379,
+        host: '192.168.137.30',
+        password: '123456',
+        db: 3,
       },
     },
   }
