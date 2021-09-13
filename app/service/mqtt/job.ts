@@ -10,7 +10,7 @@ export default class JobService extends Service {
   async assembleJob(jobId: number, ids: number[] = []) {
     ids.push(jobId)
     const jobs = await this.service.job.index({ id: jobId })
-    if (jobs[1] === 0) this.ctx.logger.error(`Job Not Found, id: ${jobId}`)
+    if (jobs[1] === 0) this.ctx.getLogger('taskLogger').error(`Job Not Found, id: ${jobId}`)
     const result = [] as Array<IJobWork>
     for (const work of jobs[0][0].work) {
       if (typeof work === 'number') {

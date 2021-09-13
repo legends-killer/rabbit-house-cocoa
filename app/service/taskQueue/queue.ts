@@ -15,23 +15,34 @@ export default class QueueService extends Service {
   }
 
   async create(mainJobId: number, jobs: IJobWork[]) {
+    const mainJob = (await this.service.job.index({ id: mainJobId }))[0].pop()
+    if (!mainJob) this.ctx.throw(404, 'main job not found', { code: '40401' })
+
     const queueItem = {} as ITaskQueue
     queueItem.mainJobId = mainJobId
     queueItem.status = 'pending'
     queueItem.jobPointer = 0
     queueItem.jobs = jobs
     queueItem.execLog = []
+    queueItem.maxRetryAttempts = mainJob.maxRetryAttempts
     const uuid = uuidv4()
 
     await this.ctx.service.tool.redis.set('job', uuid, queueItem)
     return uuid
   }
 
-  async update(uuid: string, status?: 'pending' | 'running' | 'completed', jobPointer?: number, newLog?: ITaskQueueExecLog) {
+  async update(
+    uuid: string,
+    status?: 'pending' | 'running' | 'completed' | 'exit',
+    jobPointer?: number,
+    newLog?: ITaskQueueExecLog,
+    retryTimes?: number
+  ) {
     const itemWillUpdate = await this.index(uuid)
     if (status) itemWillUpdate.status = status
     if (jobPointer) itemWillUpdate.jobPointer = jobPointer
     if (newLog) itemWillUpdate.execLog.push(newLog)
+    if (retryTimes) itemWillUpdate.maxRetryAttempts = retryTimes
 
     return await this.ctx.service.tool.redis.set('job', uuid, itemWillUpdate)
   }

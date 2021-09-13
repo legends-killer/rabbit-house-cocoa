@@ -25,8 +25,8 @@ class Job {
   @Column({ default: () => true })
   public sendResult: boolean // 是否发送执行结果通知
 
-  @Column({ nullable: true })
-  public waitBefore: number // 执行等待时间
+  @Column({ default: () => '0', nullable: true })
+  public maxRetryAttempts: number // 最大重试次数
 
   @Column('varchar', { transformer: TransWork })
   public work: Array<IJobWork | number> // JSON 对象数组，定时任务内容

@@ -37,7 +37,6 @@ export default class DispatchService extends Service {
       this.ctx.app
         .getLogger('taskLogger')
         .error(`[Job Execution Error ${uuid} ] Device Is Offline: ${jobWillBeDispatched.connectionName}`)
-      return
     }
 
     if (deviceStatus.locked) {
@@ -64,7 +63,7 @@ export default class DispatchService extends Service {
       return
     }
 
-    // 没任何问题，直接执行当前job
+    // 尝试执行当前job
     console.log('doing job execution')
     const job = queue.jobs[jobPointer]
     await this.ctx.service.taskQueue.queue.update(uuid, 'running')

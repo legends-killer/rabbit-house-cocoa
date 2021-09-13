@@ -4,7 +4,7 @@ const jobRule = {
   name: 'string',
   description: 'string?',
   sendResult: 'boolean?',
-  waitBefore: 'number?',
+  maxRetryAttempts: 'number?',
   work: 'array',
 }
 export default class JobController extends Controller {
