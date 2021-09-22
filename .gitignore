@@ -24,3 +24,5 @@ config/**/*.map
 typings/app
 typings/config
 db/
+config/*.ts
+!config/plugin.ts
