@@ -16,33 +16,6 @@ export default (appInfo: EggAppInfo) => {
     secret: 'your_jwt_secret',
   }
 
-  // mqtt
-  config.rabbitHouseMqttPlugin = {
-    server: {
-      host: '192.168.249.132',
-      port: 1883,
-      username: 'user',
-      password: '123456',
-    },
-    client: {
-      host: '192.168.249.132',
-      clientId: 'egg',
-      username: 'user',
-      password: '123456',
-      protocol: 'mqtt',
-      msgMiddleware: ['msg2json'],
-      options: {
-        keepalive: 60,
-        protocolId: 'MQTT',
-        protocolVersion: 4,
-        clean: true,
-        reconnectPeriod: 1000,
-        connectTimeout: 30 * 1000,
-        rejectUnauthorized: false,
-      },
-    },
-  }
-
   // add your egg config in here
   config.middleware = ['errorHandler', 'tokenHandler']
   config.errorHandler = {

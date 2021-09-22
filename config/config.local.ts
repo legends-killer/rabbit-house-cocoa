@@ -30,32 +30,32 @@ export default () => {
   config.redis = {
     // client: {
     //   port: 6379,
-    //   host: '192.168.137.30',
+    //   host: '192.168.3.49',
     //   password: '123456',
     //   db: 0,
     // },
     clients: {
       mqtt: {
         port: 6379,
-        host: '192.168.137.30',
+        host: '192.168.3.49',
         password: '123456',
         db: 0,
       },
       job: {
         port: 6379,
-        host: '192.168.137.30',
+        host: '192.168.3.49',
         password: '123456',
         db: 1,
       },
       device: {
         port: 6379,
-        host: '192.168.137.30',
+        host: '192.168.3.49',
         password: '123456',
         db: 2,
       },
       sys: {
         port: 6379,
-        host: '192.168.137.30',
+        host: '192.168.3.49',
         password: '123456',
         db: 3,
       },
@@ -71,6 +71,32 @@ export default () => {
       '/stream': {
         connectionMiddleware: [],
         packetMiddleware: [],
+      },
+    },
+  }
+  // mqtt
+  config.rabbitHouseMqttPlugin = {
+    server: {
+      host: '192.168.3.140',
+      port: 1883,
+      username: 'user',
+      password: '123456',
+    },
+    client: {
+      host: '192.168.3.140',
+      clientId: 'egg',
+      username: 'user',
+      password: '123456',
+      protocol: 'mqtt',
+      msgMiddleware: ['msg2json'],
+      options: {
+        keepalive: 60,
+        protocolId: 'MQTT',
+        protocolVersion: 4,
+        clean: true,
+        reconnectPeriod: 1000,
+        connectTimeout: 30 * 1000,
+        rejectUnauthorized: false,
       },
     },
   }
