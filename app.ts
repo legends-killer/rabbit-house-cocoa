@@ -1,6 +1,7 @@
 import { Application } from 'egg'
 import * as path from 'path'
 import Device from './app/entity/device'
+import Log from './app/entity/log'
 
 // app.js
 /**
@@ -52,23 +53,42 @@ class AppBootHook {
 
   async didReady() {
     // 应用已经启动完毕
-    // 订阅所有IoT设备的topic，在controller中处理消息队列和缓存机制
+    const service = this.app.createAnonymousContext().service
     const mClient = this.app.mqttClient
-    // todo: refactor to use individual qos for each toipc
+    const mServer = this.app.mqttServer.aedes
+
+    // 订阅所有IoT设备的topic，在controller中处理消息队列和缓存机制
     mClient.route(this.appBootCache.topics, this.app.controller.mqtt.mqtt.index)
-    // 设置设备初始化状态
-    this.appBootCache.deviceConnections.forEach(async (connectionName: string) => {
-      const initState = JSON.stringify({
-        online: true,
-        locked: false,
-        pendingQueue: [],
+
+    /**
+     * 维护设备状态
+     */
+    // init
+    await Promise.all(
+      this.appBootCache.deviceConnections.map((device: string) => {
+        return service.taskQueue.device.update(device, false, false, [])
       })
-      await this.app.redis.get('device').set(connectionName, initState)
+    )
+    // 设备连接
+    mServer.on('client', async (client) => {
+      const log = {} as Log
+      log.domain = 'device'
+      log.level = 'info'
+      log.msg = `device connected, connection id is ${client.id}`
+      await Promise.all([service.taskQueue.device.update(client.id, true, false), service.log.create(log)])
+    })
+    // 设备断开
+    mServer.on('clientDisconnect', async (client) => {
+      const log = {} as Log
+      log.domain = 'device'
+      log.level = 'warn'
+      log.msg = `device disconnected, connection id is ${client.id}`
+      Promise.all([service.taskQueue.device.update(client.id, false, false), service.log.create(log)])
     })
 
-    const service = this.app.createAnonymousContext().service
     // 设置自定义定时任务触发
     this.app.config.nextTick = await service.schedule.getNextTick()
+
     // 添加默认用户 admin
     const allUser = (await service.user.index({}))[0]
     let hasAdmin = false
