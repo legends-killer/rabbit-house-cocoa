@@ -58,7 +58,8 @@ class AppBootHook {
     const mServer = this.app.mqttServer.aedes
 
     // 订阅所有IoT设备的topic，在controller中处理消息队列和缓存机制
-    mClient.route(this.appBootCache.topics, this.app.controller.mqtt.mqtt.index)
+    mClient.route(this.appBootCache.topics)
+    mClient.handle(this.app.controller.mqtt.mqtt.index)
 
     /**
      * 维护设备状态
