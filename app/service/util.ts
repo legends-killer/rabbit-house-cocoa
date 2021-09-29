@@ -11,12 +11,24 @@ export default class UtilService extends Service {
     return obj
   }
 
+  /**
+   * find out difference between before and after
+   * @param before array
+   * @param after array
+   * @return {Array} item will be delete, item will be added
+   */
+  diff(before: Array<any>, after: Array<any>): Array<any> {
+    return [before.filter((x) => !after.includes(x)), after.filter((x) => !before.includes(x))]
+  }
+
   async refreshMqttListener() {
     const mClient = this.app.mqttClient
     const originTopics = Object.keys((mClient as any)._resubscribeTopics)
+    const originConnections = await this.service.tool.redis.getAllKey('device')
+
     const devices = (await this.service.device.index({ active: true }))[0]
     let allTopics: string[] = []
-    const allDeviceConnections: string[] = []
+    const allDeviceConnections: string[] = ['egg']
 
     devices.forEach((device: Device) => {
       allDeviceConnections.push(device.connectionName)
@@ -27,9 +39,20 @@ export default class UtilService extends Service {
       })
     })
 
+    const [delTopics, newTopics] = this.diff(originTopics, allTopics)
+    const [delConnections, newConnections] = this.diff(originConnections, allDeviceConnections)
+
     try {
-      mClient.unsubscribe(originTopics)
-      mClient.route(allTopics)
+      mClient.unsubscribe(delTopics)
+      mClient.route(newTopics)
+      await Promise.all([
+        ...delConnections.map((connectionName: string) => {
+          return this.service.tool.redis.delete('device', connectionName)
+        }),
+        ...newConnections.map((connectionName: string) => {
+          return this.service.taskQueue.device.update(connectionName, false, false, [])
+        }),
+      ])
       this.app.mqttClient = mClient
     } catch (error) {
       console.error(error)
