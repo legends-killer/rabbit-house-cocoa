@@ -124,12 +124,12 @@ class AppBootHook {
               if (key2 === 'topic' && typeof api[key2] === 'string' && api[key2] !== '') {
                 topicOk = true
               }
-              if (key2 === 'args' && api[key2] instanceof Array && api[key2].length > 0) {
+              if (key2 === 'args' && api[key2] instanceof Array) {
                 argsOk = true
               }
             })
             if (!(topicOk && argsOk)) {
-              throw new Error(topicOk ? (argsOk ? '' : 'api args must be non-empty array') : 'api topic must be string')
+              throw new Error(topicOk ? (argsOk ? '' : 'api args must be array') : 'api topic must be string')
             }
           })
         }
